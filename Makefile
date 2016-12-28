@@ -7,46 +7,46 @@ help:
 	@echo ""  This is merely a base image for usage read the README file
 	@echo ""   1. make run       - build and run docker container
 
-build: builddocker armaiii
+build: builddocker STEAM_GLST IP STEAM_GID TAG IP HOMEDIR
 
-run: builddocker rm TAG IP HOMEDIR homedir rundocker
+run: builddocker rm homedir rundocker
 
-install: builddocker rm TAG IP HOMEDIR homedir installdocker
+install: builddocker rm homedir installdocker
 
-rundocker: STEAM_USERNAME armaiii STEAM_PASSWORD STEAM_GUARD_CODE TAG IP HOMEDIR
+rundocker:
 	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
 	$(eval NAME := $(shell cat NAME))
 	$(eval HOMEDIR := $(shell cat HOMEDIR))
 	$(eval IP := $(shell cat IP))
 	$(eval TAG := $(shell cat TAG))
-	$(eval STEAM_USERNAME := $(shell cat STEAM_USERNAME))
-	$(eval STEAM_PASSWORD := $(shell cat STEAM_PASSWORD))
 	$(eval STEAM_GID := $(shell cat STEAM_GID))
+	$(eval STEAM_GLST := $(shell cat STEAM_GLST))
 	chmod 777 $(TMP)
 	@docker run --name=$(NAME) \
 	-d \
-	-p $(IP):2302:2302/udp \
-  -p $(IP):2303:2303/udp \
-  -p $(IP):2304:2304/udp \
-  -p $(IP):2305:2305/udp \
-  -p $(IP):2344:2344/tcp \
-  -p $(IP):2344:2344/udp \
-  -p $(IP):2345:2345/tcp \
+  -p $(IP):27345:27345/tcp \
 	--cidfile="steamerCID" \
 	--env USER=steam \
 	--env STEAM_USERNAME=$(STEAM_USERNAME) \
 	--env STEAM_PASSWORD=$(STEAM_PASSWORD) \
 	--env STEAM_GID=$(STEAM_GID) \
 	--env STEAM_GUARD_CODE=$(STEAM_GUARD_CODE) \
+	--env STEAM_GLST=$(STEAM_GLST) \
+	-p 26901:26901/udp \
+	-p 27005:27005/udp \
+	-p 27015:27015 \
+	-p 27015:27015/udp \
+	-p 27020:27020/udp \
 	-v $(TMP):/tmp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
 	-v $(HOMEDIR)/Steam:/home/steam/Steam \
 	-v $(HOMEDIR)/steamcmd:/home/steam/steamcmd \
+	-v $(HOMEDIR)/serverfiles:/home/steam/serverfiles \
 	-t $(TAG)
 
-installdocker: STEAM_USERNAME STEAM_GID STEAM_PASSWORD STEAM_GUARD_CODE TAG HOMEDIR
+installdocker:
 	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
 	$(eval NAME := $(shell cat NAME))
 	$(eval HOMEDIR := $(shell cat HOMEDIR))
@@ -55,28 +55,30 @@ installdocker: STEAM_USERNAME STEAM_GID STEAM_PASSWORD STEAM_GUARD_CODE TAG HOME
 	$(eval STEAM_USERNAME := $(shell cat STEAM_USERNAME))
 	$(eval STEAM_PASSWORD := $(shell cat STEAM_PASSWORD))
 	$(eval STEAM_GID := $(shell cat STEAM_GID))
+	$(eval STEAM_GLST := $(shell cat STEAM_GLST))
 	chmod 777 $(TMP)
-	@docker run --name=steamer \
+	@docker run --name=$(NAME) \
 	-d \
-	-p $(IP):2302:2302/udp \
-  -p $(IP):2303:2303/udp \
-  -p $(IP):2304:2304/udp \
-  -p $(IP):2305:2305/udp \
-  -p $(IP):2344:2344/tcp \
-  -p $(IP):2344:2344/udp \
-  -p $(IP):2345:2345/tcp \
+  -p $(IP):27345:27345/tcp \
 	--cidfile="steamerCID" \
 	--env USER=steam \
 	--env STEAM_USERNAME=$(STEAM_USERNAME) \
 	--env STEAM_PASSWORD=$(STEAM_PASSWORD) \
 	--env STEAM_GID=$(STEAM_GID) \
 	--env STEAM_GUARD_CODE=$(STEAM_GUARD_CODE) \
+	--env STEAM_GLST=$(STEAM_GLST) \
+	-p 26901:26901/udp \
+	-p 27005:27005/udp \
+	-p 27015:27015 \
+	-p 27015:27015/udp \
+	-p 27020:27020/udp \
 	-v $(TMP):/tmp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
 	-v $(HOMEDIR)/Steam:/home/steam/Steam \
 	-v $(HOMEDIR)/steamcmd:/home/steam/steamcmd \
+	-v $(HOMEDIR)/serverfiles:/home/steam/serverfiles \
 	-t $(TAG) /bin/bash
 
 builddocker: TAG
@@ -130,8 +132,16 @@ STEAM_GUARD_CODE:
 	done ;
 
 STEAM_GID:
+	echo 232250 > STEAM_GID
+
+ASK_STEAM_GID:
 	@while [ -z "$$STEAM_GID" ]; do \
 		read -r -p "Enter the steam password you wish to associate with this container [STEAM_GID]: " STEAM_GID; echo "$$STEAM_GID">>STEAM_GID; cat STEAM_GID; \
+	done ;
+
+STEAM_GLST:
+	@while [ -z "$$STEAM_GLST" ]; do \
+		read -r -p "Enter the steam glst you wish to associate with this container [STEAM_GLST]: " STEAM_GLST; echo "$$STEAM_GLST">>STEAM_GLST; cat STEAM_GLST; \
 	done ;
 
 STEAM_PASSWORD:
@@ -148,5 +158,3 @@ homedir: HOMEDIR
 	-@sudo mkdir -p $(HOMEDIR)/.local
 	-@sudo chown -R 1000:1000 $(HOMEDIR)
 
-armaiii:
-	echo 233780 > STEAM_GID

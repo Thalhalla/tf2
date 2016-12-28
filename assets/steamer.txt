@@ -1,6 +1,4 @@
-@ShutdownOnFailedCommand 1
-@NoPromptForPassword 1
-login REPLACEME_USERNAME REPLACEME_PASSWORD
-force_install_dir /home/steam/arma3
-app_update REPLACEME_GID validate
+login anonymous
+force_install_dir /home/steam/serverfiles/tf2
+app_update REPLACEME_GID
 quit
