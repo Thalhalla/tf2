@@ -7,24 +7,25 @@ help:
 	@echo ""  This is merely a base image for usage read the README file
 	@echo ""   1. make run       - build and run docker container
 
-build: builddocker STEAM_GLST IP STEAM_GID TAG IP HOMEDIR
+build: builddocker
 
-run: builddocker rm homedir rundocker
+reqs: STEAM_USERNAME STEAM_PASSWD STEAM_GLST IP STEAM_GID TAG IP HOMEDIR
 
-install: builddocker rm homedir installdocker
+run: builddocker reqs rm homedir rundocker
+
+install: builddocker reqs rm homedir installdocker
 
 rundocker:
-	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
 	$(eval NAME := $(shell cat NAME))
 	$(eval HOMEDIR := $(shell cat HOMEDIR))
 	$(eval IP := $(shell cat IP))
 	$(eval TAG := $(shell cat TAG))
+	$(eval STEAM_USERNAME := $(shell cat STEAM_USERNAME))
+	$(eval STEAM_PASSWORD := $(shell cat STEAM_PASSWORD))
 	$(eval STEAM_GID := $(shell cat STEAM_GID))
 	$(eval STEAM_GLST := $(shell cat STEAM_GLST))
-	chmod 777 $(TMP)
 	@docker run --name=$(NAME) \
 	-d \
-  -p $(IP):27345:27345/tcp \
 	--cidfile="steamerCID" \
 	--env USER=steam \
 	--env STEAM_USERNAME=$(STEAM_USERNAME) \
@@ -32,12 +33,11 @@ rundocker:
 	--env STEAM_GID=$(STEAM_GID) \
 	--env STEAM_GUARD_CODE=$(STEAM_GUARD_CODE) \
 	--env STEAM_GLST=$(STEAM_GLST) \
-	-p 26901:26901/udp \
-	-p 27005:27005/udp \
-	-p 27015:27015 \
-	-p 27015:27015/udp \
-	-p 27020:27020/udp \
-	-v $(TMP):/tmp \
+	-p $(IP):26901:26901/udp \
+	-p $(IP):27005:27005/udp \
+	-p $(IP):27015:27015 \
+	-p $(IP):27015:27015/udp \
+	-p $(IP):27020:27020/udp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
@@ -47,7 +47,6 @@ rundocker:
 	-t $(TAG)
 
 installdocker:
-	$(eval TMP := $(shell mktemp -d --suffix=DOCKERTMP))
 	$(eval NAME := $(shell cat NAME))
 	$(eval HOMEDIR := $(shell cat HOMEDIR))
 	$(eval TAG := $(shell cat TAG))
@@ -56,7 +55,6 @@ installdocker:
 	$(eval STEAM_PASSWORD := $(shell cat STEAM_PASSWORD))
 	$(eval STEAM_GID := $(shell cat STEAM_GID))
 	$(eval STEAM_GLST := $(shell cat STEAM_GLST))
-	chmod 777 $(TMP)
 	@docker run --name=$(NAME) \
 	-d \
   -p $(IP):27345:27345/tcp \
@@ -67,12 +65,11 @@ installdocker:
 	--env STEAM_GID=$(STEAM_GID) \
 	--env STEAM_GUARD_CODE=$(STEAM_GUARD_CODE) \
 	--env STEAM_GLST=$(STEAM_GLST) \
-	-p 26901:26901/udp \
-	-p 27005:27005/udp \
-	-p 27015:27015 \
-	-p 27015:27015/udp \
-	-p 27020:27020/udp \
-	-v $(TMP):/tmp \
+	-p $(IP):26901:26901/udp \
+	-p $(IP):27005:27005/udp \
+	-p $(IP):27015:27015 \
+	-p $(IP):27015:27015/udp \
+	-p $(IP):27020:27020/udp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
