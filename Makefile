@@ -9,7 +9,7 @@ help:
 
 build: builddocker
 
-reqs: STEAM_USERNAME STEAM_PASSWD STEAM_GLST IP STEAM_GID TAG IP HOMEDIR
+reqs: STEAM_USERNAME STEAM_PASSWORD STEAM_GLST IP STEAM_GID TAG IP HOMEDIR
 
 run: builddocker reqs rm homedir rundocker
 
