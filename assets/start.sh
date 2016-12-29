@@ -14,6 +14,7 @@ cd /home/steam/serverfiles/tf2/tf/cfg/
 sed -i "s/REPLACEME_TF2_HOSTNAME/$TF2_HOSTNAME/" server.cfg
 sed -i "s/REPLACEME_TF2_PASSWORD/$TF2_PASSWORD/" server.cfg
 sed -i "s/REPLACEME_TF2_MAIL/$TF2_MAIL/" server.cfg
+sed -i "s/REPLACEME_TF2_EXEC/$TF2_EXEC/" server.cfg
 
 # map cycle 
 cp /assets/mapcycle.txt /home/steam/serverfiles/tf2/tf/cfg/
