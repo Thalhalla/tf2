@@ -9,7 +9,7 @@ help:
 
 build: builddocker
 
-reqs: STEAM_USERNAME STEAM_PASSWORD STEAM_GLST IP STEAM_GID TAG IP HOMEDIR TF2_HOSTNAME TF2_PASSWORD TF2_MAIL TF2_EXEC
+reqs: STEAM_USERNAME STEAM_PASSWORD STEAM_GLST IP PORT STEAM_GID TAG IP HOMEDIR TF2_HOSTNAME TF2_PASSWORD TF2_MAIL TF2_EXEC
 
 run: reqs rm homedir rundocker
 
@@ -19,6 +19,7 @@ rundocker:
 	$(eval NAME := $(shell cat NAME))
 	$(eval HOMEDIR := $(shell cat HOMEDIR))
 	$(eval IP := $(shell cat IP))
+	$(eval PORT := $(shell cat PORT))
 	$(eval TAG := $(shell cat TAG))
 	$(eval STEAM_USERNAME := $(shell cat STEAM_USERNAME))
 	$(eval STEAM_PASSWORD := $(shell cat STEAM_PASSWORD))
@@ -42,11 +43,9 @@ rundocker:
 	--env STEAM_GUARD_CODE=$(STEAM_GUARD_CODE) \
 	--env STEAM_GLST=$(STEAM_GLST) \
 	--env IP=$(IP) \
-	-p $(IP):26901:26901/udp \
-	-p $(IP):27005:27005/udp \
-	-p $(IP):27015:27015 \
-	-p $(IP):27015:27015/udp \
-	-p $(IP):27020:27020/udp \
+	--env PORT=$(PORT) \
+	-p $(IP):$(PORT):$(PORT) \
+	-p $(IP):$(PORT):$(PORT)/udp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
@@ -60,6 +59,7 @@ installdocker:
 	$(eval HOMEDIR := $(shell cat HOMEDIR))
 	$(eval TAG := $(shell cat TAG))
 	$(eval IP := $(shell cat IP))
+	$(eval PORT := $(shell cat PORT))
 	$(eval STEAM_USERNAME := $(shell cat STEAM_USERNAME))
 	$(eval STEAM_PASSWORD := $(shell cat STEAM_PASSWORD))
 	$(eval STEAM_GID := $(shell cat STEAM_GID))
@@ -83,11 +83,9 @@ installdocker:
 	--env STEAM_GUARD_CODE=$(STEAM_GUARD_CODE) \
 	--env STEAM_GLST=$(STEAM_GLST) \
 	--env IP=$(IP) \
-	-p $(IP):26901:26901/udp \
-	-p $(IP):27005:27005/udp \
-	-p $(IP):27015:27015 \
-	-p $(IP):27015:27015/udp \
-	-p $(IP):27020:27020/udp \
+	--env PORT=$(PORT) \
+	-p $(IP):$(PORT):$(PORT) \
+	-p $(IP):$(PORT):$(PORT)/udp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
@@ -134,6 +132,11 @@ HOMEDIR:
 IP:
 	@while [ -z "$$IP" ]; do \
 		read -r -p "Enter the IP Address you wish to assign to this container [IP]: " IP; echo "$$IP">>IP; cat IP; \
+	done ;
+
+PORT:
+	@while [ -z "$$PORT" ]; do \
+		read -r -p "Enter the PORT Address you wish to assign to this container (27015) [PORT]: " PORT; echo "$$PORT">>PORT; cat PORT; \
 	done ;
 
 STEAM_USERNAME:
