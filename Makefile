@@ -11,9 +11,9 @@ build: builddocker
 
 reqs: STEAM_USERNAME STEAM_PASSWORD STEAM_GLST IP STEAM_GID TAG IP HOMEDIR TF2_HOSTNAME TF2_PASSWORD TF2_MAIL TF2_EXEC
 
-run: builddocker reqs rm homedir rundocker
+run: reqs rm homedir rundocker
 
-install: builddocker reqs rm homedir installdocker
+install: reqs rm homedir installdocker
 
 rundocker:
 	$(eval NAME := $(shell cat NAME))
@@ -191,3 +191,6 @@ homedir: HOMEDIR
 	-@sudo mkdir -p $(HOMEDIR)/.local
 	-@sudo chown -R 1000:1000 $(HOMEDIR)
 
+pull:
+	$(eval TAG := $(shell cat TAG))
+	docker pull $(TAG)
