@@ -46,6 +46,9 @@ rundocker:
 	--env PORT=$(PORT) \
 	-p $(IP):$(PORT):$(PORT) \
 	-p $(IP):$(PORT):$(PORT)/udp \
+	-p $(IP):26901:26901/udp \
+	-p $(IP):27005:27005/udp \
+	-p $(IP):27020:27020/udp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
@@ -86,6 +89,9 @@ installdocker:
 	--env PORT=$(PORT) \
 	-p $(IP):$(PORT):$(PORT) \
 	-p $(IP):$(PORT):$(PORT)/udp \
+	-p $(IP):26901:26901/udp \
+	-p $(IP):27005:27005/udp \
+	-p $(IP):27020:27020/udp \
 	-v $(HOMEDIR)/.steam:/home/steam/.local \
 	-v $(HOMEDIR)/.local:/home/steam/.steam \
 	-v $(HOMEDIR)/SteamLibrary:/home/steam/SteamLibrary \
