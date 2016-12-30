@@ -9,7 +9,7 @@ help:
 
 build: builddocker
 
-reqs: STEAM_USERNAME STEAM_PASSWORD STEAM_GLST IP PORT STEAM_GID TAG IP HOMEDIR TF2_HOSTNAME TF2_PASSWORD TF2_MAIL TF2_EXEC
+reqs: STEAM_USERNAME STEAM_PASSWORD STEAM_GLST IP PORT STEAM_GID TAG IP HOMEDIR TF2_HOSTNAME TF2_PASSWORD TF2_MAIL TF2_EXEC TF2_MOTD_URL
 
 run: reqs rm homedir rundocker
 
@@ -27,6 +27,7 @@ rundocker:
 	$(eval TF2_HOSTNAME := $(shell cat TF2_HOSTNAME))
 	$(eval TF2_MAIL := $(shell cat TF2_MAIL))
 	$(eval TF2_EXEC := $(shell cat TF2_EXEC))
+	$(eval TF2_MOTD_URL := $(shell cat TF2_MOTD_URL))
 	$(eval STEAM_GID := $(shell cat STEAM_GID))
 	$(eval STEAM_GLST := $(shell cat STEAM_GLST))
 	@docker run --name=$(NAME) \
@@ -39,6 +40,7 @@ rundocker:
 	--env TF2_HOSTNAME=$(TF2_HOSTNAME) \
 	--env TF2_MAIL=$(TF2_MAIL) \
 	--env TF2_EXEC=$(TF2_EXEC) \
+	--env TF2_MOTD_URL=$(TF2_MOTD_URL) \
 	--env STEAM_GID=$(STEAM_GID) \
 	--env STEAM_GUARD_CODE=$(STEAM_GUARD_CODE) \
 	--env STEAM_GLST=$(STEAM_GLST) \
@@ -71,6 +73,7 @@ installdocker:
 	$(eval TF2_HOSTNAME := $(shell cat TF2_HOSTNAME))
 	$(eval TF2_MAIL := $(shell cat TF2_MAIL))
 	$(eval TF2_EXEC := $(shell cat TF2_EXEC))
+	$(eval TF2_MOTD_URL := $(shell cat TF2_MOTD_URL))
 	@docker run --name=$(NAME) \
 	-d \
   -p $(IP):27345:27345/tcp \
@@ -80,6 +83,7 @@ installdocker:
 	--env TF2_HOSTNAME=$(TF2_HOSTNAME) \
 	--env TF2_MAIL=$(TF2_MAIL) \
 	--env TF2_EXEC=$(TF2_EXEC) \
+	--env TF2_MOTD_URL=$(TF2_MOTD_URL) \
 	--env STEAM_USERNAME=$(STEAM_USERNAME) \
 	--env STEAM_PASSWORD=$(STEAM_PASSWORD) \
 	--env STEAM_GID=$(STEAM_GID) \
@@ -190,7 +194,12 @@ TF2_MAIL:
 
 TF2_EXEC:
 	@while [ -z "$$TF2_EXEC" ]; do \
-		read -r -p "Enter the admin email you wish to associate with this TF2 server hint: look in serverfiles/tf2/tf/cfg (server_mvm) [TF2_EXEC]: " TF2_EXEC; echo "$$TF2_EXEC">>TF2_EXEC; cat TF2_EXEC; \
+		read -r -p "Enter the server config you wish to execute with this TF2 server hint: look in serverfiles/tf2/tf/cfg (server_mvm) [TF2_EXEC]: " TF2_EXEC; echo "$$TF2_EXEC">>TF2_EXEC; cat TF2_EXEC; \
+	done ;
+
+TF2_MOTD_URL:
+	@while [ -z "$$TF2_MOTD_URL" ]; do \
+		read -r -p "Enter the url to your motd.txt [TF2_MOTD_URL]: " TF2_MOTD_URL; echo "$$TF2_MOTD_URL">>TF2_MOTD_URL; cat TF2_MOTD_URL; \
 	done ;
 
 homedir: HOMEDIR

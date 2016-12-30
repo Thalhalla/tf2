@@ -18,5 +18,10 @@ sed -i "s/REPLACEME_TF2_MAIL/$TF2_MAIL/" server.cfg
 # map cycle 
 [ -f /home/steam/serverfiles/tf2/tf/cfg/mapcycle.txt ] && echo 'mapcycle.txt exists already' || cp -v /assets/mapcycle.txt /home/steam/serverfiles/tf2/tf/cfg/
 
+cd /home/steam/serverfiles/tf2/tf/cfg
+# motd.txt
+[ -f /home/steam/serverfiles/tf2/tf/cfg/motd.txt ] && echo 'motd.txt exists already' || wget -c $TF2_MOTD_URL
+
+
 # Run
 bash /assets/run.sh
