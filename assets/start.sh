@@ -12,9 +12,8 @@ cd /tmp
 sed -i "s/REPLACEME_TF2_HOSTNAME/$TF2_HOSTNAME/" server.cfg
 sed -i "s/REPLACEME_TF2_PASSWORD/$TF2_PASSWORD/" server.cfg
 sed -i "s/REPLACEME_TF2_MAIL/$TF2_MAIL/" server.cfg
-sed -i "s/REPLACEME_TF2_EXEC/$TF2_EXEC/" server.cfg
 # server.cfg
-#[ -f /home/steam/serverfiles/tf2/tf/cfg/server.cfg ] && echo 'server.cfg exists already' || cp -v /tmp/server.cfg /home/steam/serverfiles/tf2/tf/cfg/
+[ -f /home/steam/serverfiles/tf2/tf/cfg/server.cfg ] && echo 'server.cfg exists already' || cp -v /tmp/server.cfg /home/steam/serverfiles/tf2/tf/cfg/
 
 # map cycle 
 [ -f /home/steam/serverfiles/tf2/tf/cfg/mapcycle.txt ] && echo 'mapcycle.txt exists already' || cp -v /assets/mapcycle.txt /home/steam/serverfiles/tf2/tf/cfg/
