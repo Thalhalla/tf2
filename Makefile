@@ -145,6 +145,9 @@ IP:
 	done ;
 
 PORT:
+	echo 27015 > PORT
+
+ASK_PORT:
 	@while [ -z "$$PORT" ]; do \
 		read -r -p "Enter the PORT Address you wish to assign to this container (27015) [PORT]: " PORT; echo "$$PORT">>PORT; cat PORT; \
 	done ;
@@ -194,7 +197,7 @@ TF2_MAIL:
 
 TF2_EXEC:
 	@while [ -z "$$TF2_EXEC" ]; do \
-		read -r -p "Enter the server config you wish to execute with this TF2 server hint: look in serverfiles/tf2/tf/cfg (server_mvm) [TF2_EXEC]: " TF2_EXEC; echo "$$TF2_EXEC">>TF2_EXEC; cat TF2_EXEC; \
+		read -r -p "Enter the server config you wish to execute with this TF2 server hint: look in serverfiles/tf2/tf/cfg ( server_competitive.cfg ) [TF2_EXEC]: " TF2_EXEC; echo "$$TF2_EXEC">>TF2_EXEC; cat TF2_EXEC; \
 	done ;
 
 TF2_MOTD_URL:
