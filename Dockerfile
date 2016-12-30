@@ -4,7 +4,7 @@ MAINTAINER Josh Cox <josh 'at' webhosting coop>
 USER root
 
 ENV TF2_UPDATED 20161228
-ENV TF2_MOTD_URL https://raw.githubusercontent.com/Thalhalla/tf2/master/assests/motd.txt
+ENV TF2_MOTD_URL https://raw.githubusercontent.com/Thalhalla/tf2/master/assets/motd.txt
 
 # override these variables in with the prompts
 ENV STEAM_USERNAME anonymous
