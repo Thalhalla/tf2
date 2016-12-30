@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sudo chown -R steam. /home/steam
+mkdir /home/steam/serverfiles/tf2
 
 cp /assets/steamer.txt /home/steam/
 cd /home/steam
