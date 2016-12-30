@@ -214,3 +214,5 @@ homedir: HOMEDIR
 pull:
 	$(eval TAG := $(shell cat TAG))
 	docker pull $(TAG)
+
+t: build run logs
