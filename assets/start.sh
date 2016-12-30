@@ -12,6 +12,9 @@ bash /home/steam/steamcmd.sh +runscript /home/steam/steamer.txt
 echo '<<<<<<<<<<<<<<<DEBUG>>>>>>>>>>>>>>>>'
 ls -lh /home/steam/serverfiles
 ls -lh /home/steam/serverfiles/tf2
+ls -lh /home/steam/serverfiles/tf2/tf
+ls -lh /home/steam/serverfiles/tf2/tf/cfg
+env
 echo '{{{{{{{{{{{{{{{DEBUGEND}}}}}}}}}}}}}}}}'
 
 cp /assets/server.cfg /tmp/
