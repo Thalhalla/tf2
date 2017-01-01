@@ -57,6 +57,7 @@ rundocker:
 	-v $(HOMEDIR)/Steam:/home/steam/Steam \
 	-v $(HOMEDIR)/steamcmd:/home/steam/steamcmd \
 	-v $(HOMEDIR)/serverfiles:/home/steam/serverfiles \
+	-v $(HOMEDIR)/log:/home/steam/log \
 	-t $(TAG)
 
 installdocker:
@@ -102,6 +103,7 @@ installdocker:
 	-v $(HOMEDIR)/Steam:/home/steam/Steam \
 	-v $(HOMEDIR)/steamcmd:/home/steam/steamcmd \
 	-v $(HOMEDIR)/serverfiles:/home/steam/serverfiles \
+	-v $(HOMEDIR)/log:/home/steam/log \
 	-t $(TAG) /bin/bash
 
 builddocker: TAG
