@@ -1,14 +1,16 @@
 #!/bin/bash
 
 sudo chown -R steam. /home/steam
-mkdir /home/steam/serverfiles/tf2
+mkdir -p /home/steam/serverfiles/tf2
 
 cp /assets/steamer.txt /home/steam/
 cd /home/steam
 sed -i "s/REPLACEME_USERNAME/$STEAM_USERNAME/" steamer.txt
 sed -i "s/REPLACEME_PASSWORD/$STEAM_PASSWORD/" steamer.txt
 sed -i "s/REPLACEME_GID/$STEAM_GID/" steamer.txt
-bash /home/steam/steamcmd.sh +runscript /home/steam/steamer.txt
+
+cd /opt/steamer
+./steamcmd.sh +runscript /home/steam/steamer.txt
 echo '<<<<<<<<<<<<<<<DEBUG>>>>>>>>>>>>>>>>'
 ls -lh /home/steam/serverfiles
 ls -lh /home/steam/serverfiles/tf2
