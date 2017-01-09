@@ -1,4 +1,6 @@
-login anonymous
+@ShutdownOnFailedCommand 1 //set to 0 if updating multiple servers at once
+@NoPromptForPassword 1
+login REPLACEME_USERNAME REPLACEME_PASSWORD
 force_install_dir /home/steam/serverfiles/tf2
 app_update REPLACEME_GID
 quit
